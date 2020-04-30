@@ -11,7 +11,15 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     
     switch (action.type) {
-        case actionTypes.FETCH_BATCHES_START:
+        case actionTypes.INITIALIZE_BATCH:
+                return {
+                    ...state,
+                    loading:false,
+                    error:false,
+                    batches: [],
+                    batchData:null
+                }
+                case actionTypes.FETCH_BATCHES_START:
                 return {
                     ...state,
                     loading:true
@@ -46,6 +54,19 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 error:true,
                 loading:false
+            };
+        case actionTypes.SAVE_BATCH_SUCCESS:
+            return {
+                ...state,
+                error:false,
+                loading:false
+            };
+        case actionTypes.SUBMIT_BATCH_SUCCESS:
+            return {
+                ...state,
+                loading:false,
+                error:false,
+                batchData:null
             };
         default:
             return state;

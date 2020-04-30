@@ -1,6 +1,9 @@
 export {
-    fetchBatches,
-    authBatch
+    authBatch,
+    initializeBatch,
+    saveBatch,
+    submitBatch,
+    submitBatchSuccess
 } from './batch'
 
 export {

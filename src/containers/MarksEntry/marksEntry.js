@@ -1,34 +1,57 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+
 import Auxilary from '../../hoc/Auxilary/Auxilary';
 import Batch from '../batch/batch';
 import Marks from '../../components/marks/marks';
-import axios from '../../axios-orders';
+import axios from '../../axios-vmou';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import {connect} from 'react-redux';
+
 import * as actions from '../../store/actions/index';
 
-
+const _ = require('lodash');
 class MarksEntry extends Component {
-   state = {
-        marksDisplay:false
-    }
-    
     entrySavedHandler = () => {
         if (this.props.isAuth) {
-            
+            var mnew = [];
+            this.props.batchData.marks.map(m => mnew.push(_.pick(m,['controlno','award','status'])));
+            const bdata = {
+                status: this.props.batchData.status,
+                marks:mnew
+            }
+            this.props.onEntrySaved(this.props.batchData._id,bdata,this.props.token);
         } else {
-            this.props.onSetAuthRedirectPath('/checkout');
             this.props.history.push('/auth')
         }
     }
 
     entryCancelledHandler = () => {
-        this.setState({marksDisplay:false});
+        this.props.onEntryCancelled();
     }
 
     entrySubmitHandler = () => {
-        
+        if (this.props.isAuth) {
+            var mnew = [];
+            var chkall = true;
+            for (var m in this.props.batchData.marks) {
+                if (this.props.batchData.marks[m].award===0 && this.props.batchData.marks[m].status==='  ')
+                    chkall=false;
+            }
+            if (!chkall) {
+                alert("Batch Not Yet Completed..Cannot Submit, Use Save Instead")
+                return;
+            }
+            this.props.batchData.marks.map(m => mnew.push(_.pick(m,['controlno','award','status'])));
+            const bdata = {
+                status: this.props.batchData.status,
+                marks:mnew
+            }
+            this.props.onEntrySubmit(this.props.batchData._id,bdata,this.props.token);
+            this.props.history.push('/logout')
+        } else {
+            this.props.history.push('/auth')
+        }
     }
     render () {
 
@@ -58,14 +81,16 @@ const mapStatetoProps = (state) => {
         batchData: state.batch.batchData,
         error:state.batch.error,
         loading:state.batch.loading,
-        isAuth:state.auth.token!==null
+        isAuth:state.auth.token!==null,
+        token:state.auth.token
     };
 }
 
 const mapDispatchtoProps = dispatch => {
     return {
-        // onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
-        // onIngredientRemove: (ingName) => dispatch(actions.removeIngredient(ingName)),
+        onEntrySaved: (id,bd,token) => dispatch(actions.saveBatch(id,bd,token)),
+        onEntrySubmit: (id,bd,token) => dispatch(actions.submitBatch(id,bd,token)),
+        onEntryCancelled: () => dispatch(actions.submitBatchSuccess()),
         // onInitIngredients: () => dispatch(actions.initIngredients()),
         // onInitPurchase: () => dispatch(actions.purchaseInit()),
         onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))

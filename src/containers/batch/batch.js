@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import axios from '../../axios-orders';
+import axios from '../../axios-vmou';
 import classes from './batch.module.css';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -18,7 +18,7 @@ class Batch extends Component {
     }
     inputChangedHandler = (event, inputIdentifier) => {
         const updatedForm = {
-            ...this.state.controls
+            ...this.state.batchForm
         };
         const updateElement = {
             ...updatedForm[inputIdentifier]
@@ -28,7 +28,7 @@ class Batch extends Component {
         updateElement.valid = checkValidity(updateElement.value, updateElement.validation);
         updatedForm[inputIdentifier] = updateElement;
         
-        this.setState({controls : updatedForm});
+        this.setState({batchForm : updatedForm});
 
     } 
     constructor(props) {
@@ -60,19 +60,27 @@ class Batch extends Component {
                     touched:false
                 }
             },
-            formIsValid:false
+            error:false
         }    
                
     }
     componentDidMount() {
         //const queryParams = '?auth=' + this.props.token +'&orderBy="evalid"&equalTo="'+this.props.userId+'"'     
-        axios.get('/batch.json?auth='+this.props.token)
+        var authOptions = {
+            method: 'GET',
+            url: '/batch/user/'+this.props.userId,
+            headers : {
+                'x-auth-token':this.props.token
+            },
+            json: true
+          };
+        axios(authOptions)
         .then(res => {
             const fdata = [];
             for (let key in res.data) {
-                if (key === 'batchid')
-                    fdata.push(res.data.batchid);}
-            this.setState({batches:[...fdata]});
+                fdata.push(res.data[key].batchcode);}
+            console.log(fdata);
+            this.setState({batches:fdata});
             this.createSelect();
             })
             .catch(err => {
@@ -90,20 +98,24 @@ class Batch extends Component {
             ...updateElement['elementConfig']
         };         
         this.state.batches.map(id => updateConfig['options'].push({'value':id, 'displayvalue':id}));
+        updateElement.value=this.state.batches[0];
+        
         updateElement.touched=true;
         updateElement.valid = checkValidity(updateElement.value, updateElement.validation);
         updateElement['elementConfig'] = updateConfig;
         updatedForm['batchId'] = updateElement;    
-        this.setState({controls : updatedForm});
+        this.setState({batchForm : updatedForm});
+        if (this.state.batches.length<=0)
+            this.setState({error:true});
     }
     
     render () {
 
         let formElementArray = [];
-        for (let key in this.state.controls) {
+        for (let key in this.state.batchForm) {
             formElementArray.push({
                 id:key,
-                config:this.state.controls[key]
+                config:this.state.batchForm[key]
             });
         }
         let form = formElementArray.map(formElement => (
@@ -116,13 +128,20 @@ class Batch extends Component {
                 shouldValidate={formElement.config.validation}
                 touched={formElement.config.touched}
                 validationErrorMessage={"Please Enter Valid " + formElement.id}
-                changed={(event) => this.inputChangedHandler(event, formElement.id)} />))
+                changed={(event) => this.inputChangedHandler(event, formElement.id)} />));
+
+        form = <div>
+            {form} 
+            <Button clicked={this.submitHandler} btnType="Success">SUBMIT</Button>
+        </div>
         if (this.props.loading)
             form = <Spinner />
         let errorMsg = null;
         
-        if (this.props.error)
-            errorMsg=<p>{this.props.error.message}</p>
+        if (this.state.error) {
+            errorMsg=<p>No Pending Batches</p>
+            form=null;
+        }
         let authRedirect=null;
         if (this.props.isAuth)
             authRedirect=<Redirect to={this.props.authRedirectPath}/>
@@ -133,7 +152,7 @@ class Batch extends Component {
                 <form >
                     {form}    
                 </form>
-                <Button clicked={this.submitHandler} btnType="Success">SUBMIT</Button>
+                
             </div>
         );
     }

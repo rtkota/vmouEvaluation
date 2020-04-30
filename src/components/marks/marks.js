@@ -9,7 +9,7 @@ import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 const marks = (props) => {
   
   
-    let markdata = props.data;
+    let markdata = props.data.marks;
     
     const columns = [
         {
@@ -27,7 +27,7 @@ const marks = (props) => {
                   message: 'Awards should be numeric'
                 };
               }
-              if (newValue > 70) {
+              if (newValue > props.data.mmarks) {
                 return {
                   valid: false,
                   message: 'Award cannot exceed Max Marks'
@@ -39,11 +39,19 @@ const marks = (props) => {
         {
             dataField:'status',
             text:'Status',
-            editor: {
+            validator: (newValue, row, column) => {
+              if (newValue === '') {
+                return {
+                  valid: false,
+                  message: 'Select From Dropdown'
+                };
+              }},
+              editor: {
                 type: Type.SELECT,
+                default:'  ',
                 options: [{
-                  value: ' ',
-                  label: ' '
+                  value: '  ',
+                  label: '  '
                 }, {
                   value: 'Ab',
                   label: 'Ab'
@@ -61,12 +69,19 @@ const marks = (props) => {
     return (
       
         <div className={classes.Marks} style={{ marginTop: 50 }}>
+            <div className={classes.Heading}>
+              <p>Exam: {props.data.exam}</p>
+              <p>Program: {props.data.pcode}</p>
+              <p>Course: {props.data.ccode}</p>
+              <p>Type: {props.data.ptype}</p>
+              <p>Max.Marks: {props.data.mmarks}</p>
+            </div>
             <BootstrapTable 
                 keyField="controlno" 
                 data={markdata} 
                 columns={columns} 
                 striped={true}
-                cellEdit={ cellEditFactory({ mode: 'click',autoSelectText: true, blurToSave: false })}
+                cellEdit={ cellEditFactory({ mode: 'click',autoSelectText: true, blurToSave: true })}
             />
             <Button onClick={props.entrySaved}>Save</Button>
             <Button onClick={props.entryCancelled}>Cancel</Button>
