@@ -1,3 +1,111 @@
+Create Following objects in Evaluation database in mongodb:
+1. Batches Document
+{
+	"batchcode":"bapEMT1",
+	"userid":"5ea83b1cb27f7931084d6f5a",
+	"type":"marks1",
+	"exam":"DEC19",
+	"pcode":"BAP",
+	"ccode":"EMT",
+	"ptype":"TE",
+	"totalcopies":30,
+	"attempts":0,
+	"mmarks":80,
+	"status":"created",
+	"marks":[{
+		"controlno":"191139-010001",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010002",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010003",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010004",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010005",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010006",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010007",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010008",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010009",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010010",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010011",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010012",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010013",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010014",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010015",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010016",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010017",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010018",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010019",
+		"award":0,
+		"status": "  "
+	},{
+		"controlno":"191139-010020",
+		"award":0,
+		"status": "  "
+	}]
+}
+
+2. In users Document :
+{
+	"name":"Rajesh",
+	"email":"rajesh@gmail.com",
+	"password":"121212"
+	}
+  
+ NOTE : After entering the above user replace userid in batch created above with object ID of user created above.
+        One more batch object can also be created with differenct batch code and control nos(in sequence eg 191139-010021 onwards
+
+----------------------------------------------------------------------------------------------------------------------------------------
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
