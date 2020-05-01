@@ -2,9 +2,11 @@ import React from 'react';
 import classes from './marks.module.css'
 import {Button} from 'react-bootstrap';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BootstrapTable from 'react-bootstrap-table-next'; 
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 const marks = (props) => {
   
@@ -81,6 +83,9 @@ const marks = (props) => {
                 data={markdata} 
                 columns={columns} 
                 striped={true}
+                condensed
+                tabIndexCell
+                pagination={ paginationFactory() }
                 cellEdit={ cellEditFactory({ mode: 'click',autoSelectText: true, blurToSave: true })}
             />
             <Button onClick={props.entrySaved}>Save</Button>
