@@ -9,12 +9,12 @@
  }   
 
   .logo {
-    height:90px;
+    height:70px;
     width: 100px;
     border-radius: 50%;
     margin-top: 5px;
     animation: App-logo-spin infinite 20s linear;
-    height: 15vmin;
+    height: 13vmin;
     pointer-events: none;
   }
   

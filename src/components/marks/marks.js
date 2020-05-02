@@ -70,7 +70,7 @@ const marks = (props) => {
     //
     return (
       
-        <div className={classes.Marks} style={{ marginTop: 50 }}>
+        <div className={classes.Marks} style={{ marginTop: 10 }}>
             <div className={classes.Heading}>
               <p>Exam: {props.data.exam}</p>
               <p>Program: {props.data.pcode}</p>
@@ -85,7 +85,8 @@ const marks = (props) => {
                 striped={true}
                 condensed
                 tabIndexCell
-                pagination={ paginationFactory() }
+                pagination={
+                  paginationFactory() }
                 cellEdit={ cellEditFactory({ mode: 'click',autoSelectText: true, blurToSave: true })}
             />
             <Button onClick={props.entrySaved}>Save</Button>
