@@ -1,0 +1,34 @@
+
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top:100px;
+ }   
+
+  .logo {
+    height:90px;
+    width: 100px;
+    border-radius: 50%;
+    margin-top: 5px;
+    animation: App-logo-spin infinite 20s linear;
+    height: 15vmin;
+    pointer-events: none;
+  }
+  
+
+  .carda {
+    background-color: lightgrey;
+    border: 5px solid black;
+
+  }
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
