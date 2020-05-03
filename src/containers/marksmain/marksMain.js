@@ -10,8 +10,13 @@ class MarksMain extends Component {
                 <div className={classes.card}>
                     <img className={classes.logo} fluid src={vmouLogo} alt=" "/>
                 </div>
-                
+                <p></p>
+                <p></p>
+                <p></p>
                 <h1>Important Instructions</h1>
+                
+                <p>1. Only incompleted batches will be displayed for Marks Entry.</p>
+                <p>2. There are ONLY FIVE ATTEMPTS provided for filling the marks in each batch..</p>
             </div>
         )
     }
