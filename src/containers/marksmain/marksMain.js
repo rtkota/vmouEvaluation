@@ -8,7 +8,7 @@ class MarksMain extends Component {
         return (
             <div className={classes.App}>
                 <div className={classes.card}>
-                    <img className={classes.logo} fluid src={vmouLogo} alt=" "/>
+                    <img className={classes.logo}  src={vmouLogo} alt=" "/>
                 </div>
                 <p></p>
                 <p></p>

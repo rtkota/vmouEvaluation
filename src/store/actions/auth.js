@@ -26,6 +26,7 @@ export const logout = () => {
     localStorage.removeItem('token');
     //localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
+    localStorage.removeItem('uimage');
     return {
         type:actionTypes.AUTH_LOGOUT
     }
@@ -39,21 +40,28 @@ const checkAuthTimeout = (expiresIn) => {
     }
 }
 
-export const auth = (email, password, isSignup) => {
+export const auth = (email, password, isSignup,img) => {
     return dispatch => {
         dispatch(authStart());
         const authData = {
+            
             email:email,
-            password:password  
+            password:password,
+            uimage:img  
+        }
+        const authData1 = {
+           
+            email:email,
+            password:password,
+            
         }
         //returnSecureToken:true
         var authOptions = {
             method: 'POST',
             url: '/auth',
-            data: authData,
+            data: authData1,
             json: true
-          };
-        //let url="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDYcN9HbFCgDUJfi9UAFMR13aiDn-NRMjE";
+        };
         if (isSignup)
             authOptions = {
                 method: 'POST',
@@ -61,13 +69,14 @@ export const auth = (email, password, isSignup) => {
                 data: authData,
                 json: true
           };
-        //    url='https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDYcN9HbFCgDUJfi9UAFMR13aiDn-NRMjE';
+          
         axios(authOptions)
         .then(response => {
             //const expirationDate = new Date(new Date().getTime()+response.data.expiresIn*1000);
             localStorage.setItem('token',response.data.token);
             //localStorage.setItem('expirationDate',expirationDate);
             localStorage.setItem('userId',response.data.userId);
+            localStorage.setItem('uimage',response.data.uimage);
             dispatch(authSuccess(response.data.token, response.data.userId))
             //dispatch(checkAuthTimeout(response.data.expiresIn))
         })

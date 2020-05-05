@@ -79,7 +79,6 @@ class Batch extends Component {
             const fdata = [];
             for (let key in res.data) {
                 fdata.push(res.data[key].batchcode);}
-            console.log(fdata);
             this.setState({batches:fdata});
             this.createSelect();
             })

@@ -9,6 +9,7 @@ import MarksMain from '../src/containers/marksmain/marksMain'
 import asyncComponent from '../src/hoc/asyncComponent/asyncComponent';
 
 
+
 const asyncAuth = asyncComponent(() => {
   return import('../src/containers/Auth/Auth');
 });
@@ -30,6 +31,7 @@ class App extends Component {
       routes = (
       <Switch>
         <Route path="/marksentry" component={MarksEntry} />
+        
         <Route path="/logout" component={Logout} />
         <Route path="/auth" component={asyncAuth} />
         <Route path="/" exact component={MarksMain} />
